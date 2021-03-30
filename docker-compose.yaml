@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:8.0.19
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=kyjstream
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+    ports:
+      - 3307:3306
+  backend:
+    build: backend
+    restart: always
+    secrets:
+      - db-password
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend:/app
+  frontend:
+    build: frontend
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend:/project
+      - /project/node_modules
+volumes:
+  db-data:
+secrets:
+  db-password:
+    file: db/password.txt
