@@ -1,0 +1,6 @@
+2021-04-01 00:11:22 - root - INFO - test
+2021-04-01 00:11:22 - werkzeug - INFO -  * Restarting with stat
+2021-04-01 00:11:22 - root - INFO - test
+2021-04-01 00:11:22 - werkzeug - WARNING -  * Debugger is active!
+2021-04-01 00:11:22 - werkzeug - INFO -  * Debugger PIN: 318-779-668
+2021-04-01 00:11:22 - werkzeug - INFO -  * Running on http://127.0.0.1:8888/ (Press CTRL+C to quit)
