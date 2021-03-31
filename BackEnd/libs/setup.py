@@ -3,7 +3,7 @@ from os import path
 
 
 this_directory = path.abspath(path.dirname('./'))
-with open('libs/README.md', 'rt') as f:
+with open('README.md', 'rt') as f:
     long_description = f.read()
 
 setup(
@@ -15,5 +15,5 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url="",
-    packages=['libs/lib']
+    packages=['lib','lib.exception']
 )

@@ -6,6 +6,6 @@ WORKDIR /app
 ADD . /app
 
 RUN  python  ./libs/setup.py install
-RUN    pip install -r requirements.txt
+RUN  pip install -r requirements.txt
 
 CMD python main.py

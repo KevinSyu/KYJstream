@@ -12,4 +12,6 @@ def hello_world():
 if __name__ == "__main__":
     KYJStreamInit.init()
     KYJStreamConfig.init()
+
+    print(KYJStreamConfig.get_str('kyjstream.test','projectName'))
     # app.run(debug=True, host='0.0.0.0', port=8888)
