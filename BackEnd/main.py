@@ -4,5 +4,8 @@ from lib.config import KYJStreamConfig
 from framework_init import FrameWork
 
 if __name__ == "__main__":
-    KYJStreamInit.init()
-    # FrameWork.init()   
+    try:
+        KYJStreamInit.init()
+        FrameWork.init()   
+    except Exception as e:
+        print(e)
