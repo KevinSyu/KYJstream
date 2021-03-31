@@ -1,6 +1,8 @@
 from lib.config import KYJStreamConfig
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import os
+from datetime import datetime
 
 class KYJStreamLogger:
 
@@ -13,13 +15,15 @@ class KYJStreamLogger:
 
     if not os.path.isdir(path):
       os.mkdir(path)
-    
+        
     logging.basicConfig(
-      filename=path+name,
       level=logging.INFO,
       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-      datefmt='%Y-%m-%d %H:%M:%S'
+      datefmt='%Y-%m-%d %H:%M:%S',
+      handlers=[TimedRotatingFileHandler(path+str(datetime.today().date())+'-'+name, when='midnight', backupCount=20),
+      TimedRotatingFileHandler(path+name, when='midnight', backupCount=1)]
     )
+
     KYJStreamLogger.log_info('test')
 
   @staticmethod
@@ -33,3 +37,5 @@ class KYJStreamLogger:
   @staticmethod
   def log_error(msg):
     logging.error(msg)
+
+  
