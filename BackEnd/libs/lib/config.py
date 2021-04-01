@@ -5,11 +5,13 @@ import lib.exception.config_not_found_exception
 class KYJStreamConfig:
 
     __config = configparser.ConfigParser()
-    __path = "./etc/default.ini"
+    __default_path = "./etc/default.ini"
+    __common_path = "./etc/common.ini"
 
     @staticmethod
     def init():
-        KYJStreamConfig.__config.read(KYJStreamConfig.__path)
+        KYJStreamConfig.__config.read(KYJStreamConfig.__default_path)
+        KYJStreamConfig.__config.read(KYJStreamConfig.__common_path)
 
     @staticmethod
     def get_str(section, key):
