@@ -2,6 +2,7 @@ from lib.config import KYJStreamConfig
 from lib.exception.sql_exception import SqlException
 from sqlalchemy import create_engine
 from sqlalchemy import text
+from lib.log import KYJStreamLogger
 
 class DataBase:
 
@@ -16,45 +17,48 @@ class DataBase:
     }
     self.__engine = create_engine(db_url.format(**setting),pool_recycle=7200)
 
-  def get_connection(self):
-    return self.__engine.connect()
+  def get_connection(self):    
+    self.connection = self.__engine.connect()
 
   def get_transaction(self):
-    connection = self.__engine.connect()
-    transaction = connection.begin()
-    return transaction
+    self.transaction = self.connection.begin()
   
   def execute_sql_with_connection(self,sql,params = None):
     try:
-      self.connection = self.get_connection()
+      self.get_connection()
       if params:
         result = self.connection.execute(text(sql),params)
       else:
         result = self.connection.execute(sql)
       return result
     except Exception as e:
+      KYJStreamLogger.log_error(e)
       raise SqlException('execute_sql_with_connection faild')
     finally:
       self.connection.close()
 
   def execute_sql_with_transaction(self,sql,params = None):
     try:
-      self.transaction = self.get_transaction()
+      self.get_connection()
+      self.get_transaction()
       if params:
-        result = self.transaction.execute(text(sql),params)
+        result = self.connection.execute(text(sql),params)
       else:
-        result = self.transaction.execute(sql)
+        result = self.connection.execute(sql)
       return result
     except Exception as e:
+      KYJStreamLogger.log_error(e)
       raise SqlException('execute_sql_with_transaction faild')
 
   def commit(self):
     try:
       self.transaction.commit()
     except Exception as e:
+      KYJStreamLogger.log_error(e)
       raise SqlException('commit faild')
     finally:
       self.transaction.close()
+      self.connection.close()
   
   def rollback(self):
     try:
@@ -63,5 +67,6 @@ class DataBase:
       raise SqlException('rollback faild')
     finally:
       self.transaction.close()
+      self.connection.close()
 
     

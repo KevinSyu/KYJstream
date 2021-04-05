@@ -17,5 +17,29 @@
   在瀏覽器輸入網址:http://127.0.0.1:8888/kyj_stream/
   即可看到Hello World
 
+
+  ## 存取DB:
+  連線資訊都放在etc/common.ini檔裡面，請根據自己DB的設定來做修改
+  存取DB的方法分2種:
+  首先要先引用: from lib.db import DataBase
+  接著宣告 db:DataBase = DBManager.get_db()
+  ### 第一種 一般查詢:  
+  data = db.execute_sql_with_connection('SELECT * FROM customers').fetchall()
+
+  ### 第二種 交易:
+  db.execute_sql_with_transaction('INSERT INTO customers (C_Id, Name,  Address, Phone)\
+                              VALUES (":C_ID",":Name",  ":Address", ":Phone");',{'C_ID':90,'Name':"李3","Address":"ZZ路300號","Phone":"07-12345678"})
+  db.commit()
+
+  * 注意!! 為防止xss 要用:xxx來插入變數
+
+  ## log
+  為記錄問題，加入了log機制，如果有需要加log，方法如下:
+  首先要先引用: from lib.log import KYJStreamLogger
+  接著根據你log的問題狀況來做分群，分別有error、warning、info
+  log的檔案都在Backend/log目錄底下，分別有記錄過去的log以及當日的log
+
+
+
   
   
