@@ -42,9 +42,9 @@ class DataBase:
       self.get_connection()
       self.get_transaction()
       if params:
-        result = self.connection.execute(text(sql),params)
+        result = self.connection.execution_options(autocommit=False).execute(text(sql),params)
       else:
-        result = self.connection.execute(sql)
+        result = self.connection.execution_options(autocommit=False).execute(sql)
       return result
     except Exception as e:
       KYJStreamLogger.log_error(e)
@@ -57,7 +57,6 @@ class DataBase:
       KYJStreamLogger.log_error(e)
       raise SqlException('commit faild')
     finally:
-      self.transaction.close()
       self.connection.close()
   
   def rollback(self):
@@ -66,7 +65,6 @@ class DataBase:
     except Exception as e:
       raise SqlException('rollback faild')
     finally:
-      self.transaction.close()
       self.connection.close()
 
     
