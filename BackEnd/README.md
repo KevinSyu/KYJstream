@@ -8,15 +8,23 @@
     版本確認無誤，打開vsCode的Terminal，進入Backend資料夾
     請下指令:pip install -r requirements.txt
     再進入libs資料夾，下指令:pip install ./
-
+    
     所有的套件都安裝成功
+
+  ## DB Migration:
+    打開terminal，需要先進入db_migrate資料夾，修改alembic.ini檔案的sqlalchemy.url，
+    改為自己DB的URL，然後下指令:alembic upgrade head，會將DB結構更新至最新版本，
+    如果需要回到上一版本，可下指令: alembic downgrade -1 後會數字越大 回到越前面的版本，也可以直接指定版本號
+    如果需要對資料庫做DDL，則下指令:alembic revision  -m "${你要下的訊息}"，即可在./kyjAlembic/version 看到生成新的檔案
+    即可寫對DB做更動的邏輯
+    可參考:https://medium.com/@acer1832a/%E4%BD%BF%E7%94%A8-alembic-%E4%BE%86%E9%80%B2%E8%A1%8C%E8%B3%87%E6%96%99%E5%BA%AB%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86-32d949f7f2c6
+    做完這些即做完DB的設定
 
   ## 啟動方法:
     打開vsCode的Terminal，進入Backend資料夾
     下指令:python main.py
     在瀏覽器輸入網址:http://127.0.0.1:8888/kyj_stream/
     即可看到Hello World
-
 
   ## 存取DB:
     連線資訊都放在etc/common.ini檔裡面，請根據自己DB的設定來做修改
