@@ -22,8 +22,7 @@ if __name__ == "__main__":
         de = decrypt(en)
         print(en)
         print(de)
-        # FrameWork.init()
-
+        FrameWork.init()
 
     except Exception as e:
         KYJStreamLogger.log_error(e)
