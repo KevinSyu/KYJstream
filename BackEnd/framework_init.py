@@ -13,5 +13,5 @@ class FrameWork:
     app = Flask(__name__)
     app.register_blueprint(kyj_stream,url_prefix='/kyj_stream')
     
-    app.run(debug=True, host='127.0.0.1', port=8888)
+    app.run(debug=True, host='0.0.0.0', port=8888)
  
