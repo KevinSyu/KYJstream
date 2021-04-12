@@ -5,7 +5,7 @@ WORKDIR /app
 # ADD requirements.txt /app
 ADD . /app
 
-RUN pip install -r requirements.txt
-RUN pip install ./libs/
+RUN  python  ./libs/setup.py install
+RUN  pip install -r requirements.txt
 
-CMD python main.py 
+CMD python main.py
