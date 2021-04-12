@@ -8,21 +8,20 @@ from lib.log import KYJStreamLogger
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import base64 
+from lib.crypt import encrypt
+from lib.crypt import decrypt
+from Crypto.Util.Padding import pad, unpad
 
 
 if __name__ == "__main__":
     try:
         KYJStreamInit.init()
-        KYJStreamLogger.init()
         DBManager.init()
-        key = bytes("IXqAiIIVkcD8t70E","ascii")
-        cipher = AES.new(key,AES.MODE_ECB)
-        s = cipher.encrypt(bytes("1234567891234567","ascii"))
-        
-        print(base64.encodebytes(s))
-        print(base64.encodebytes(key))
 
-
+        en = encrypt("XXXSTHSTXXX")
+        de = decrypt(en)
+        print(en)
+        print(de)
         # FrameWork.init()
 
 
