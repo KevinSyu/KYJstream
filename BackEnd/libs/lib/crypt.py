@@ -8,7 +8,6 @@ crypt_config_section = "kyjstream.secret.crypt"
 crypt_config_key = "KEY"
 def encrypt(msg):
   key = bytes(KYJStreamConfig.get_str(crypt_config_section,crypt_config_key),"ascii")
-  # key = bytes("IXqAiIIVkcD8t70E","ascii")
   cipher = AES.new(key,AES.MODE_ECB)
 
   result = base64.encodebytes(cipher.encrypt(pad(bytes(msg,"ascii"),32)))
@@ -17,7 +16,6 @@ def encrypt(msg):
 
 def decrypt(msg):
   key = bytes(KYJStreamConfig.get_str(crypt_config_section,crypt_config_key),"ascii")
-  # key = bytes("IXqAiIIVkcD8t70E","ascii")
 
   cipher = AES.new(key,AES.MODE_ECB)
   
