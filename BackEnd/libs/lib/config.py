@@ -5,6 +5,8 @@ import os
 class KYJStreamConfig:
 
     __config = configparser.ConfigParser()
+    __host_section = 'kyjstream.env.config'
+    __host_key = 'HOST_KEY'
 
     @staticmethod
     def init():
@@ -12,12 +14,10 @@ class KYJStreamConfig:
         KYJStreamConfig.__config.read('./etc/default.ini')
         KYJStreamConfig.__config.read('./etc/common.ini')
 
-        if os.environ.get('ENVIRONMENT') and os.environ.get('ENVIRONMENT') == "dockerdev":
-            KYJStreamConfig.set_db_config_section('kyjstream.dockerdev.db.mysql.config')
-            KYJStreamConfig.set_host('0.0.0.0')
+        if  os.environ.get('ENVIRONMENT') == "dockerdev":
+            KYJStreamConfig.__config.read('./etc/common_docker_dev.ini')
         else:
-            KYJStreamConfig.set_db_config_section('kyjstream.db.mysql.config')
-            KYJStreamConfig.set_host('127.0.0.1')
+            KYJStreamConfig.__config.read('./etc/common_local_dev.ini')
 
         KYJStreamConfig.set_crypt_section('kyjstream.secret.crypt')
         KYJStreamConfig.set_crypt_key('KEY')
@@ -51,12 +51,8 @@ class KYJStreamConfig:
         return KYJStreamConfig.__crypt_config_key
 
     @staticmethod
-    def get_db_config_section():
-        return KYJStreamConfig.__db_config_section
-
-    @staticmethod
-    def get_host():
-        return KYJStreamConfig.__host
+    def get_host():        
+        return KYJStreamConfig.get_str(KYJStreamConfig.__host_section,KYJStreamConfig.__host_key)
 
     @staticmethod
     def set_crypt_section(section):
@@ -65,11 +61,3 @@ class KYJStreamConfig:
     @staticmethod
     def set_crypt_key(key):
         KYJStreamConfig.__crypt_config_key = key
-
-    @staticmethod
-    def set_db_config_section(section):
-        KYJStreamConfig.__db_config_section = section
-
-    @staticmethod
-    def set_host(host):
-        KYJStreamConfig.__host = host

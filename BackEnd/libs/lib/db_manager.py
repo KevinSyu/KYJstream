@@ -11,7 +11,7 @@ class DBManager:
   @staticmethod
   def init():
 
-    DBManager.__db = DataBase(KYJStreamConfig.get_db_config_section())
+    DBManager.__db = DataBase(DBManager.__db_config_section)
 
   @staticmethod
   def get_db():
