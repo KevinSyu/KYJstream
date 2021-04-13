@@ -5,13 +5,16 @@ import lib.exception.config_not_found_exception
 class KYJStreamConfig:
 
     __config = configparser.ConfigParser()
-    __default_path = "./etc/default.ini"
-    __common_path = "./etc/common.ini"
+    __crypt_config_section = ''
+    __crypt_config_key = ''
 
     @staticmethod
     def init():
-        KYJStreamConfig.__config.read(KYJStreamConfig.__default_path)
-        KYJStreamConfig.__config.read(KYJStreamConfig.__common_path)
+        KYJStreamConfig.__config.read('./etc/default.ini')
+        KYJStreamConfig.__config.read('./etc/common.ini')
+        KYJStreamConfig.set_crypt_section('kyjstream.secret.crypt')
+        KYJStreamConfig.set_crypt_key('KEY')
+        KYJStreamConfig.set_config(KYJStreamConfig.get_crypt_section(),KYJStreamConfig.get_crypt_key(),"IXqAiIIVkcD8t70E")
 
     @staticmethod
     def get_str(section, key):
@@ -30,3 +33,21 @@ class KYJStreamConfig:
         if not KYJStreamConfig.is_exist(section):
             KYJStreamConfig.__config.add_section(section)
         KYJStreamConfig.__config.set(section,key,msg)
+
+    @staticmethod
+    def get_crypt_section():
+        return KYJStreamConfig.__crypt_config_section
+    
+
+    @staticmethod
+    def get_crypt_key():
+        return KYJStreamConfig.__crypt_config_key
+
+    @staticmethod
+    def set_crypt_section(section):
+        KYJStreamConfig.__crypt_config_section = section
+
+    @staticmethod
+    def set_crypt_key(key):
+        KYJStreamConfig.__crypt_config_key = key
+    

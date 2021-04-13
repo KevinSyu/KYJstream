@@ -20,11 +20,9 @@ class KYJStreamLogger:
       level=logging.INFO,
       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
       datefmt='%Y-%m-%d %H:%M:%S',
-      handlers=[TimedRotatingFileHandler(path+str(datetime.today().date())+'-'+name, when='midnight'),
+      handlers=[
       TimedRotatingFileHandler(path+name, when='midnight')]
     )
-
-    KYJStreamLogger.log_info('test')
 
   @staticmethod
   def log_info(msg):

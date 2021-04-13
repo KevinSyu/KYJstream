@@ -4,22 +4,24 @@ from Crypto.Util.Padding import pad, unpad
 from lib.config import KYJStreamConfig
 import base64 
 
-crypt_config_section = "kyjstream.secret.crypt"
-crypt_config_key = "KEY"
+
+PADDING = 32
+ENCODE = "ascii"
+
 def encrypt(msg):
-  key = bytes(KYJStreamConfig.get_str(crypt_config_section,crypt_config_key),"ascii")
+  key = bytes(KYJStreamConfig.get_str(KYJStreamConfig.get_crypt_section(),KYJStreamConfig.get_crypt_key()),ENCODE)
   cipher = AES.new(key,AES.MODE_ECB)
 
-  result = base64.encodebytes(cipher.encrypt(pad(bytes(msg,"ascii"),32)))
+  result = base64.b64encode(cipher.encrypt(pad(bytes(msg,ENCODE),PADDING)))
 
   return result
 
 def decrypt(msg):
-  key = bytes(KYJStreamConfig.get_str(crypt_config_section,crypt_config_key),"ascii")
+  key = bytes(KYJStreamConfig.get_str(KYJStreamConfig.get_crypt_section(),KYJStreamConfig.get_crypt_key()),ENCODE)
 
   cipher = AES.new(key,AES.MODE_ECB)
   
-  result = unpad(cipher.decrypt(base64.decodebytes(bytes(msg))),32)
+  result = unpad(cipher.decrypt(base64.b64decode(msg)),PADDING)
 
   return result
 
