@@ -41,13 +41,19 @@
 
   * 注意!! 為防止xss 要用:xxx來插入變數
 
-  ## log
+  ## log:
     為記錄問題，加入了log機制，如果有需要加log，方法如下:
     首先要先引用: from lib.log import KYJStreamLogger
     接著根據你log的問題狀況來做分群，分別有error、warning、info
     log的檔案都在Backend/log目錄底下，分別有記錄過去的log以及當日的log
 
     * 注意!! 不要把log檔也上傳
+
+  ## 資料加解密:
+    如果資料需要加密或解密，請import以下的lib
+    from lib.crypt import encrypt
+    from lib.crypt import decrypt
+    用法:en = encrypt("想要加密的字串") OR de = decrypt("需要解密的字串")
 
 
 

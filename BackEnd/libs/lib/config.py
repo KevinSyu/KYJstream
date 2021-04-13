@@ -24,3 +24,9 @@ class KYJStreamConfig:
         if KYJStreamConfig.__config.has_section(section):
             return True
         return False
+    
+    @staticmethod
+    def set_config(section,key,msg):
+        if not KYJStreamConfig.is_exist(section):
+            KYJStreamConfig.__config.add_section(section)
+        KYJStreamConfig.__config.set(section,key,msg)
