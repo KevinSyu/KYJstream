@@ -17,13 +17,9 @@ if __name__ == "__main__":
     try:
         KYJStreamInit.init()
         DBManager.init()
-
-        en = encrypt("XXXSTHSTXXX")
-        de = decrypt(en)
-        print(en)
-        print(de)
         FrameWork.init()
+
 
     except Exception as e:
         KYJStreamLogger.log_error(e)
-        print(e) 
+        raise Exception('caught by global exception')
