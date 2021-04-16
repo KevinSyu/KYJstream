@@ -3,6 +3,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 import os
 from datetime import datetime
+from pytz import timezone
 
 class KYJStreamLogger:
 
@@ -15,7 +16,8 @@ class KYJStreamLogger:
 
     if not os.path.isdir(path):
       os.mkdir(path)
-        
+    
+    logging.Formatter.converter = lambda *args: datetime.now(tz=timezone('Asia/Taipei')).timetuple()
     logging.basicConfig(
       level=logging.INFO,
       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

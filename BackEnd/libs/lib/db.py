@@ -15,7 +15,7 @@ class DataBase:
       'port':KYJStreamConfig.get_str(section,'PORT'),
       'dbname':KYJStreamConfig.get_str(section,'DB_NAME')
     }
-    self.__engine = create_engine(db_url.format(**setting),pool_recycle=7200)
+    self.__engine = create_engine(db_url.format(**setting),pool_recycle=7200,pool_size=10,max_overflow=0)
 
   def get_connection(self):    
     self.connection = self.__engine.connect()
