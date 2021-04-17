@@ -17,6 +17,7 @@ if __name__ == "__main__":
     try:
         KYJStreamInit.init()
         DBManager.init()
+        print('test git')
         FrameWork.init()
 
 
