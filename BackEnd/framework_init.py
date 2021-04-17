@@ -5,6 +5,7 @@ import os
 kyj_stream = Blueprint('kyj-stream',__name__)
 
 import controller.test_controller 
+import error_handler
 
 class FrameWork:
 
