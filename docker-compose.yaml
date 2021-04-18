@@ -20,5 +20,12 @@ services:
       - ./backend:/app
     depends_on:
       - db
+  frontend:
+    build: ./frontend/KYJstream
+    ports:
+      - 4200:4200
+    volumes:
+      - ./FrontEnd/KYJstream:/app
+      - /app/node_modules
 volumes:
   db-data:
