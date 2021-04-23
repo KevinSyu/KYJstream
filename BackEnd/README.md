@@ -108,3 +108,6 @@
     from lib.crypt import encrypt
     from lib.crypt import decrypt
     用法:en = encrypt("想要加密的字串") OR de = decrypt("需要解密的字串")
+    
+
+    

@@ -25,3 +25,17 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+# 前端新建專案:
+
+  ## 下載版本為:14.15.0的node.JS :  
+
+  ## 安裝Angular CLI:
+    npm install -g @angular/cli
+    -g表示安裝在global
+
+  ## 補其他所需檔案:
+    npm install 
+    
+  ## 啟SERVE，改用0.0.0.0IP:
+    ng serve --host 0.0.0.0
