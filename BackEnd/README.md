@@ -23,14 +23,36 @@
   docker-compose stop
   ```
 
-  當任何library有更動時
+  當requirements.txt有變動時
+  ```
+  # container沒開時
+  docker-compose run --rm backend pip install -r requirements.txt
+
+  # container開啟時
+  docker exec -it kyj_stream_backend_1 pip install -r requirements.txt
+  ```
+
+  當libs有變動時
+  ```
+  # container沒開時
+  docker-compose run --rm backend pip install ./libs/
+
+  # container開啟時
+  docker exec -it kyj_stream_backend_1 pip install ./libs/
+  ```
+
+  懶得思考哪些有變動哪些沒變動時
   ```
   docker-compose build backend
   ```
 
   想執行任何指令
   ```
+  # container沒開時
   docker-compose run --rm backend <你的指令>
+
+  # container開啟時
+  docker exec -it kyj_stream_backend_1 <你的指令>
   ```
 
   進入container的bash terminal
