@@ -1,18 +1,27 @@
 import os
-from datetime import datetime, timedelta, date
+from lib.config import KYJStreamConfig
+from lib.log import KYJStreamLogger
 from lib.file_handler import KYJFileHandler
+from datetime import datetime, timedelta, date
 import re
 import json
 
 class LogsService:
+  __log_path_section     = 'kyjstream.config'
+  __time_param_format    = '%Y%m%dT%H%M%S'
+  __time_log_file_format = '%Y-%m-%d %H:%M:%S'
+  __date_log_file_format = '%Y-%m-%d'
+
   def __init__(self, time_begin, time_end, names, levels, keywords, regex):
+    self.log_path = KYJStreamConfig.get_str(self.__log_path_section, 'LOG_PATH') + KYJStreamConfig.get_str(self.__log_path_section, 'LOG_NAME')
+
     # prepare variable for time
     self.time_begin = None
     self.time_end = None
     if time_begin:
-      self.time_begin = datetime.strptime(time_begin, '%Y%m%dT%H%M%S')
+      self.time_begin = datetime.strptime(time_begin, self.__time_param_format)
     if time_end:
-      self.time_end = datetime.strptime(time_end, '%Y%m%dT%H%M%S')
+      self.time_end = datetime.strptime(time_end, self.__time_param_format)
       
     # prepare variable for filtering name
     self.name_list = []
@@ -43,7 +52,7 @@ class LogsService:
     
     # filter each log
     for log in log_list:
-      log_time = datetime.strptime(log["time"], '%Y-%m-%d %H:%M:%S')
+      log_time = datetime.strptime(log["time"], self.__time_log_file_format)
       if self.time_end and log_time > self.time_end:
         break
       if self.time_begin and log_time < self.time_begin:
@@ -102,14 +111,12 @@ class LogsService:
     # read all log files
     lines = []
     for single_date in (date_begin + timedelta(n) for n in range(day_count)):
-      path = ""
-      if date.today() == single_date:
-        path = os.path.join('log', 'system.log')
-      else:
-        path = os.path.join('log', 'system.log.{}'.format(single_date.strftime('%Y-%m-%d')))
+      log_path = self.log_path
+      if not date.today() == single_date:
+        log_path += ".{}".format(single_date.strftime(self.__date_log_file_format))
 
-      if os.path.exists(path):
-        log_file = KYJFileHandler(path)
+      if os.path.exists(log_path):
+        log_file = KYJFileHandler(log_path)
         lines += log_file.readlines()
 
     for line in lines:
