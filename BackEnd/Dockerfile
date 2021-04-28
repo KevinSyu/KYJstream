@@ -4,10 +4,12 @@ ENV ENVIRONMENT dockerdev
 
 WORKDIR /app
 
-# ADD requirements.txt /app
-ADD . /app
-
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
+
+COPY ./libs/ /app/libs/
 RUN pip install ./libs/
+
+COPY . /app
 
 CMD python main.py 

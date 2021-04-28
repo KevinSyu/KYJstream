@@ -7,8 +7,9 @@ from functools import wraps
 from lib.exception.config_not_found_exception import ConfigNotFoundException
 
 import os
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from lib.log import KYJStreamLogger
+from lib.file_handler import KYJFileHandler
 import re
 import json
   
@@ -21,8 +22,13 @@ class LogsController:
     log_result = []
 
     args = request.args
+
     time_begin = args.get('time_begin')
-    time_end   = args.get('time_end')
+    time_end = args.get('time_end')
+    if time_begin:
+      time_begin = datetime.strptime(time_begin, '%Y%m%dT%H%M%S')
+    if time_end:
+      time_end = datetime.strptime(time_end, '%Y%m%dT%H%M%S')
     names      = args.get('names')
     levels     = args.get('levels')
     keywords   = args.get('keywords')
@@ -34,14 +40,8 @@ class LogsController:
   
   @staticmethod
   def search_log_list(time_begin, time_end, names, levels, keywords, regex):
-    log_list = LogsController.get_log_list()
+    log_list = LogsController.get_log_list(time_begin, time_end)
     log_result_list = []
-
-    # prepare variable for filtering time
-    if time_begin:
-      time_begin = datetime.strptime(time_begin, '%Y-%m-%d-%H:%M:%S')
-    if time_end:
-      time_end = datetime.strptime(time_end, '%Y-%m-%d-%H:%M:%S')
     
     # prepare variable for filtering name
     name_list = []
@@ -117,11 +117,38 @@ class LogsController:
     return True
 
   @staticmethod
-  def get_log_list():
+  def get_log_list(time_begin, time_end):
     log_list = []
 
-    log_file = open(os.path.join('log', 'system.log'))
-    lines = log_file.readlines()
+    # calculate date
+    date_begin = None
+    date_end = None
+    day_count = 0
+
+    if time_begin and time_end:
+      date_begin = time_begin.date()
+      date_end = time_end.date()
+    elif time_end:
+      date_begin = datetime(2021, 3, 1).date()
+      date_end = time_end.date()
+    elif time_begin:
+      date_begin = time_begin.date()
+      date_end = date.today()
+
+    day_count = (date_end - date_begin).days + 1
+
+    # read all log files
+    lines = []
+    for single_date in (date_begin + timedelta(n) for n in range(day_count)):
+      path = ""
+      if date.today() == single_date:
+        path = os.path.join('log', 'system.log')
+      else:
+        path = os.path.join('log', 'system.log.{}'.format(single_date.strftime('%Y-%m-%d')))
+
+      if os.path.exists(path):
+        log_file = KYJFileHandler(path)
+        lines += log_file.readlines()
 
     for line in lines:
       line_split = line.split(' - ', 3)
@@ -139,8 +166,3 @@ class LogsController:
         log_list[-1]["msg"] += line
 
     return log_list
-  
-
-#   @retry(exception=ConfigNotFoundException,times=2, delay=0)
-#   def print_test(msg):
-#     raise ConfigNotFoundException('config not found')
