@@ -12,34 +12,12 @@ class LogsService:
   __time_log_file_format = '%Y-%m-%d %H:%M:%S'
   __date_log_file_format = '%Y-%m-%d'
 
-  def __init__(self, time_begin, time_end, names, levels, keywords, regex):
-    self.log_path = KYJStreamConfig.get_str(self.__log_path_section, 'LOG_PATH') + KYJStreamConfig.get_str(self.__log_path_section, 'LOG_NAME')
+  def __init__(self):
+    pass
 
-    # prepare variable for time
-    self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
-    self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
-      
-    # prepare variable for filtering name
-    self.name_list = names.split(",") if names else []
-    
-    # prepare variable for filtering level
-    self.level_list = levels.split(",") if levels else []
+  def search_log_list(self, time_begin, time_end, names, levels, keywords, regex):
+    self.__set_search_condition(time_begin, time_end, names, levels, keywords, regex)
 
-    # prepare variable for regex
-    self.regex = regex
-
-    # prepare variable for filtering keyword
-    self.keyword_and_list = []
-    self.keyword_or_list = []
-    if keywords:
-      if "&&" in keywords:
-        self.keyword_and_list = keywords.split("&&")
-      elif "||" in keywords:
-        self.keyword_or_list = keywords.split("||")
-      else:
-        self.keyword_and_list = [keywords]
-
-  def search_log_list(self):
     log_list = self.__get_log_list(self.time_begin, self.time_end)
     log_result_list = []
     
@@ -66,6 +44,34 @@ class LogsService:
 
 
   # all methods below are private
+  def __set_search_condition(self, time_begin, time_end, names, levels, keywords, regex):
+    self.log_path = KYJStreamConfig.get_str(self.__log_path_section, 'LOG_PATH') + KYJStreamConfig.get_str(self.__log_path_section, 'LOG_NAME')
+
+    # prepare variable for time
+    self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
+    self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
+      
+    # prepare variable for filtering name
+    self.name_list = names.split(",") if names else []
+    
+    # prepare variable for filtering level
+    self.level_list = levels.split(",") if levels else []
+
+    # prepare variable for regex
+    self.regex = regex
+
+    # prepare variable for filtering keyword
+    self.keyword_and_list = []
+    self.keyword_or_list = []
+    if keywords:
+      if "&&" in keywords:
+        self.keyword_and_list = keywords.split("&&")
+      elif "||" in keywords:
+        self.keyword_or_list = keywords.split("||")
+      else:
+        self.keyword_and_list = [keywords]
+
+
   def __is_keyword_match(self, msg):
     if self.keyword_and_list:
       for keyword in self.keyword_and_list:

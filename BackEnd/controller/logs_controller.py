@@ -19,7 +19,7 @@ class LogsController:
     keywords   = args.get('keywords')
     regex      = args.get('regex')
     
-    service = LogsService(time_begin, time_end, names, levels, keywords, regex)
-    log_result_list = service.search_log_list()
+    service = LogsService()
+    log_result_list = service.search_log_list(time_begin, time_end, names, levels, keywords, regex)
 
     return json.dumps({"data": log_result_list})
