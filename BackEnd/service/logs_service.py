@@ -16,22 +16,17 @@ class LogsService:
     self.log_path = KYJStreamConfig.get_str(self.__log_path_section, 'LOG_PATH') + KYJStreamConfig.get_str(self.__log_path_section, 'LOG_NAME')
 
     # prepare variable for time
-    self.time_begin = None
-    self.time_end = None
-    if time_begin:
-      self.time_begin = datetime.strptime(time_begin, self.__time_param_format)
-    if time_end:
-      self.time_end = datetime.strptime(time_end, self.__time_param_format)
+    self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
+    self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
       
     # prepare variable for filtering name
-    self.name_list = []
-    if names:
-      name_list = names.split(",")
+    self.name_list = names.split(",") if names else []
     
     # prepare variable for filtering level
-    self.level_list = []
-    if levels:
-      level_list = levels.split(",")
+    self.level_list = levels.split(",") if levels else []
+
+    # prepare variable for regex
+    self.regex = regex
 
     # prepare variable for filtering keyword
     self.keyword_and_list = []
@@ -43,8 +38,6 @@ class LogsService:
         self.keyword_or_list = keywords.split("||")
       else:
         self.keyword_and_list = [keywords]
-    
-    self.regex = regex
 
   def search_log_list(self):
     log_list = self.__get_log_list(self.time_begin, self.time_end)
@@ -99,14 +92,9 @@ class LogsService:
     log_list = []
 
     # calculate date
-    date_begin = datetime(2021, 3, 1).date() # the date we start to develop KYJStream
-    date_end = date.today()
-    if time_end:
-      date_end = time_end.date()
-    if time_begin:
-      date_begin = time_begin.date()
-
-    day_count = (date_end - date_begin).days + 1
+    date_begin = time_begin.date() if time_begin else datetime(2021, 3, 1).date() # the date we start to develop KYJStream
+    date_end   = time_end.date()   if time_end   else date.today()
+    day_count  = (date_end - date_begin).days + 1
 
     # read all log files
     lines = []
