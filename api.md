@@ -43,7 +43,7 @@ If there is complicated condition required, please use regex in regex field.
   
   
 ##### regex
-Direct write your regex.
+Directly write your regex.
 ex. `regex=^\*` (messages that start with `*`)
   
 
