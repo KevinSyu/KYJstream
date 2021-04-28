@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 class LogsController:
-  @kyj_stream.route('/logs',methods=['GET'])
+  @kyj_stream.route('/logs', methods=['GET'])
   @check_login
   def index():
     args = request.args
