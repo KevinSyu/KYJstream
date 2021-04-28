@@ -13,7 +13,7 @@ class LogsService:
   __date_log_file_format = '%Y-%m-%d'
 
   def __init__(self):
-    pass
+    self.log_path = KYJStreamConfig.get_str(self.__log_path_section, 'LOG_PATH') + KYJStreamConfig.get_str(self.__log_path_section, 'LOG_NAME')
 
   def search_log_list(self, time_begin, time_end, names, levels, keywords, regex):
     self.__set_search_condition(time_begin, time_end, names, levels, keywords, regex)
@@ -45,8 +45,6 @@ class LogsService:
 
   # all methods below are private
   def __set_search_condition(self, time_begin, time_end, names, levels, keywords, regex):
-    self.log_path = KYJStreamConfig.get_str(self.__log_path_section, 'LOG_PATH') + KYJStreamConfig.get_str(self.__log_path_section, 'LOG_NAME')
-
     # prepare variable for time
     self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
     self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
