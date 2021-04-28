@@ -3,7 +3,8 @@
 ## Logs Api
 ### GET `/kyj_stream/logs`
 #### URL Params
-All params are case sensitive
+ex. `/kyj_stream/logs?time_begin=20210425T185613&time_end=20210425T185617&names=werkzeug,root&keywords=Debugger||Restarting&levels=WARNING&regex=^\*`  
+All params are case sensitive  
 
 ##### time_begin
 ex. `time_begin=20210425T185613`  
