@@ -4,6 +4,8 @@ from logging.handlers import TimedRotatingFileHandler
 import os
 from datetime import datetime
 from pytz import timezone
+from flask.logging import default_handler
+
 
 class KYJStreamLogger:
 
@@ -16,6 +18,9 @@ class KYJStreamLogger:
 
     if not os.path.isdir(path):
       os.mkdir(path)
+
+    werkzeug_log = logging.getLogger('werkzeug')
+    werkzeug_log.setLevel(logging.ERROR)
     
     logging.Formatter.converter = lambda *args: datetime.now(tz=timezone('Asia/Taipei')).timetuple()
     logging.basicConfig(
@@ -35,7 +40,10 @@ class KYJStreamLogger:
     logging.warning(msg)
 
   @staticmethod
-  def log_error(msg):
-    logging.error(msg)
+  def log_error(msg,exception = None):
+    if exception is None:
+      logging.error(msg)
+    else:
+      logging.exception(msg)
 
   

@@ -7,5 +7,6 @@ class ErrorHandler:
 
   @kyj_stream.errorhandler(Exception)
   def global_error_handler(ex):
-    KYJStreamLogger.log_info(traceback.format_exc())
+    print(ex)
+    KYJStreamLogger.log_error('caught ',ex)
     return "Exception"
