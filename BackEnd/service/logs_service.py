@@ -3,6 +3,7 @@ from lib.config import KYJStreamConfig
 from lib.log import KYJStreamLogger
 from lib.file_handler import KYJFileHandler
 from datetime import datetime, timedelta, date
+from lib.exception.log_datetime_format_exception import LogDatetimeFormatException
 import re
 import json
 
@@ -46,8 +47,11 @@ class LogsService:
   # all methods below are private
   def __set_search_condition(self, time_begin, time_end, names, levels, keywords, regex):
     # prepare variable for time
-    self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
-    self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
+    try:
+      self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
+      self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
+    except:
+      raise LogDatetimeFormatException
       
     # prepare variable for filtering name
     self.name_list = names.split(",") if names else []
@@ -112,10 +116,17 @@ class LogsService:
         lines += log_file.readlines()
 
     for line in lines:
+      # Split one line into four parts. 
+      # With the message below for example:
+      #   "2021-05-03 19:43:04 - werkzeug - INFO -  * Restarting with stat"
+      # will be splited into:
+      #   ["2021-05-03 19:43:04", "werkzeug", "INFO", "* Restarting with stat"]
       line_split = line.split(' - ', 3)
 
-      # check whether this line is a new log or not (by checking if line start with date)
-      if re.match(r"^(\d+\D*){6}", line_split[0]):
+      # Check whether this line is a new log or not (by checking if line start with date)
+      # The regex stands for stating with consecutive of (<digit at least one time> + <none digit>) for 5 times, and finally followed with two digits
+      # for example, it should match "2021-05-03 19:43:04", but not matches "ValueError: time data "
+      if re.match(r"^(\d+\D){5}(\d\d)", line_split[0]):
         log_list.append({
           "time":  line_split[0].strip(),
           "name":  line_split[1].strip(),
@@ -123,6 +134,7 @@ class LogsService:
           "msg":   line_split[3].strip()
         })
       else:
+        # if the new line is not started with datetime format, it means that this line is a continuous messages from the previous line.
         log_list[-1]["msg"] += line
 
     return log_list

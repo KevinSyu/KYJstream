@@ -48,22 +48,25 @@ Directly write your regex.
 ex. `regex=^\*` (messages that start with `*`)
   
 
-#### Respons
+#### Response
 ```
 {
-  "data":[
-    {
-      "time":"2021-04-25 18:56:13",
-      "name":"werkzeug",
-      "level":"INFO",
-      "msg":"* Restarting with stat"
-    },
-    {
-      "time":"2021-04-25 18:56:13",
-      "name":"werkzeug",
-      "level":"WARNING",
-      "msg":"* Debugger is active!"
-    }
-  ]
+  "status":"success",
+  "data":{
+    "logs":[
+      {
+        "time":"2021-04-25 18:56:13",
+        "name":"werkzeug",
+        "level":"WARNING",
+        "msg":"* Debugger is active!"
+      },
+      {
+        "time":"2021-04-25 18:56:17",
+        "name":"root",
+        "level":"WARNING",
+        "msg":"Restarting"
+      }
+    ]
+  }
 }
 ```

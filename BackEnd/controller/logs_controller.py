@@ -3,6 +3,7 @@ from framework_init import kyj_stream
 from lib.retry import retry
 from lib.check_login import check_login
 from service.logs_service import LogsService
+from lib.exception.log_datetime_format_exception import LogDatetimeFormatException
 import json
   
 app = Flask(__name__)
@@ -20,6 +21,20 @@ class LogsController:
     regex      = args.get('regex')
     
     service = LogsService()
-    log_result_list = service.search_log_list(time_begin, time_end, names, levels, keywords, regex)
 
-    return json.dumps({"data": log_result_list})
+    try:
+      log_result_list = service.search_log_list(time_begin, time_end, names, levels, keywords, regex)
+    except LogDatetimeFormatException as e:
+      # return error status with 422 response when datetime conversion failed
+      return json.dumps({
+        "status": "error",
+        "message" : e.message
+      }), 422
+
+    # when searching proccess is success
+    return json.dumps({
+      "status": "success", 
+      "data": { 
+        "logs": log_result_list 
+      }
+    })
