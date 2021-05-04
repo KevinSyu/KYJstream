@@ -4,6 +4,7 @@ from lib.retry import retry
 from lib.check_login import check_login
 from service.logs_service import LogsService
 from lib.exception.log_datetime_format_exception import LogDatetimeFormatException
+from lib.json_response import *
 import json
   
 app = Flask(__name__)
@@ -25,16 +26,8 @@ class LogsController:
     try:
       log_result_list = service.search_log_list(time_begin, time_end, names, levels, keywords, regex)
     except LogDatetimeFormatException as e:
-      # return error status with 422 response when datetime conversion failed
-      return json.dumps({
-        "status": "error",
-        "message" : e.message
-      }), 422
+      # when datetime conversion failed, return status 422 with error message.
+      return api_unprocessable_entity(e.message)
 
-    # when searching proccess is success
-    return json.dumps({
-      "status": "success", 
-      "data": { 
-        "logs": log_result_list 
-      }
-    })
+    # when searching proccess is success, return search result
+    return api_success({"logs": log_result_list})

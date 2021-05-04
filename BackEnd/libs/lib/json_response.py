@@ -3,6 +3,9 @@ import json
 # 以下是參考Jsend標準
 # https://github.com/omniti-labs/jsend
 
+def api_unprocessable_entity(message):
+  return api_error(message), 422
+
 def api_success(data = None):
   return json.dumps({
     "status": "success",

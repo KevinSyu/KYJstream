@@ -139,6 +139,7 @@
     成功時: `在controller method最後加上 return api_success(data = None)`
     失敗時: `在controller method最後加上 return api_fail(failed_data)`
     錯誤時: `在controller method最後加上 return api_error(message))`
+    422 Unprocessable Entity: `在controller method最後加上 return api_unprocessable_entity(message))`
   
     
 
