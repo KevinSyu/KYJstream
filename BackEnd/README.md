@@ -130,6 +130,17 @@
     from lib.crypt import encrypt
     from lib.crypt import decrypt
     用法:en = encrypt("想要加密的字串") OR de = decrypt("需要解密的字串")
+  
+  ## 回傳json資料
+    本專案基本上是參考jsend標準，詳見: https://github.com/omniti-labs/jsend
+    用法:
+    請先import: `from lib.json_response import *`
+
+    成功時: `在controller method最後加上 return api_success(data = None)`
+    失敗時: `在controller method最後加上 return api_fail(failed_data)`
+    錯誤時: `在controller method最後加上 return api_error(message))`
+    422 Unprocessable Entity: `在controller method最後加上 return api_unprocessable_entity(message))`
+  
     
 
     
