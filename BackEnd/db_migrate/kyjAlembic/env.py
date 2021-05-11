@@ -2,8 +2,11 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+from sqlalchemy import create_engine
 
 from alembic import context
+from lib.config import KYJStreamConfig
+from lib.db_manager import DBManager
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -56,20 +59,25 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    KYJStreamConfig.init()
+    DBManager.init()
+    
+    db = DBManager.get_db()
+    db.get_connection()
 
-    with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
-
-        with context.begin_transaction():
-            context.run_migrations()
-
+    db_test = None
+    if KYJStreamConfig.is_exist("kyjstream_test.db.mysql.config"):
+        DBManager.init_test_db()
+        db_test = DBManager.get_test_db()
+        db_test.get_connection()
+    
+    for db in filter(None.__ne__, [db, db_test]):
+        with db.connection as connection:
+            context.configure(
+                connection=connection, target_metadata=target_metadata
+            )
+            with context.begin_transaction():
+                context.run_migrations()
 
 if context.is_offline_mode():
     run_migrations_offline()

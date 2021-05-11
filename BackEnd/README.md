@@ -4,7 +4,8 @@
   `docker-compose build`
 
   ### Step 2 DB Migration
-  `docker-compose run --rm backend alembic -c "db_migrate/alembic_docker.ini" upgrade head`
+  `docker-compose run --rm backend alembic upgrade head`
+  有時這裡會有失敗訊息，因為初次啟動時backend和db的container之間啟動有時差，失敗的話等個10秒再執行一次應該就可以了
 
   ### Step 3 建立container並啟動
   `docker-compose up`
@@ -44,6 +45,18 @@
   懶得思考哪些有變動哪些沒變動時
   ```
   docker-compose build backend
+  ```
+
+  當有新的db migration時
+  ```
+  docker-compose run --rm backend alembic upgrade head
+  ```
+
+  當docker-compose裡db的敘述有被修改時
+  ```
+  docker-compose stop && docker rm -v kyj_stream_db_1 && docker volume rm -f kyj_stream_db-data
+  docker-compose run --rm backend alembic upgrade head
+  有時這裡會有失敗訊息，因為初次啟動時backend和db的container之間啟動有時差，失敗的話等個10秒再執行一次應該就可以了
   ```
 
   想執行任何指令
@@ -86,7 +99,7 @@
     所有的套件都安裝成功
 
   ## DB Migration:
-    打開terminal，需要先進入db_migrate資料夾，修改alembic.ini檔案的sqlalchemy.url，
+    打開terminal，需要先進入Backend資料夾
     改為自己DB的URL，然後下指令:alembic upgrade head，會將DB結構更新至最新版本，
     如果需要回到上一版本，可下指令: alembic downgrade -1 後會數字越大 回到越前面的版本，也可以直接指定版本號
     如果需要對資料庫做DDL，則下指令:alembic revision  -m "${你要下的訊息}"，即可在./kyjAlembic/version 看到生成新的檔案
