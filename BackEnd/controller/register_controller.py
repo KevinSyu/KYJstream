@@ -12,7 +12,7 @@ import json,dataclasses
   
 class RegisterController:
   
-  @kyj_stream.route('/login',methods=['POST'])
+  @kyj_stream.route('/register',methods=['POST'])
   @jwt_required(locations='headers',optional=True)
   def register_controller():
 
@@ -41,7 +41,7 @@ class RegisterController:
     refresh_token = create_refresh_token(user_email)
 
     response = RegisterVO(access_token,refresh_token)
-    
+
     return api_success(response.__dict__)
 
   @kyj_stream.route('/refresh',methods=['POST'])
