@@ -14,7 +14,7 @@ def encrypt(msg):
 
   result = base64.b64encode(cipher.encrypt(pad(bytes(msg,ENCODE),PADDING)))
 
-  return result
+  return str(result)
 
 def decrypt(msg):
   key = bytes(KYJStreamConfig.get_str(KYJStreamConfig.get_crypt_section(),KYJStreamConfig.get_crypt_key()),ENCODE)
@@ -23,5 +23,5 @@ def decrypt(msg):
   
   result = unpad(cipher.decrypt(base64.b64decode(msg)),PADDING)
 
-  return result
+  return str(result)
 

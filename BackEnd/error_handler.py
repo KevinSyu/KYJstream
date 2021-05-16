@@ -3,6 +3,7 @@ from lib.exception.config_not_found_exception import ConfigNotFoundException
 from lib.exception.datetime_format_exception import DatetimeFormatException
 from lib.exception.validation_exception import ValidationException 
 from lib.exception.register_exception import RegisterException
+from lib.exception.sql_exception import SqlException
 from lib.log import KYJStreamLogger
 import traceback
 import flask_jwt_extended.exceptions
@@ -41,6 +42,11 @@ class ErrorHandler:
   def jwt_token_error_handler(ex):
     KYJStreamLogger.log_error(str(ex),ex)
     return api_unprocessable_entity(str(ex))    
+
+  @kyj_stream.errorhandler(SqlException)
+  def sql_error_handler(ex):
+    KYJStreamLogger.log_error(str(ex),ex)
+    return api_unprocessable_entity(str(ex))  
     
   @kyj_stream.errorhandler(Exception)
   def global_error_handler(ex):
