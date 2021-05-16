@@ -2,6 +2,7 @@ from framework_init import kyj_stream
 from lib.exception.config_not_found_exception import ConfigNotFoundException 
 from lib.exception.datetime_format_exception import DatetimeFormatException
 from lib.exception.validation_exception import ValidationException 
+from lib.exception.register_exception import RegisterException
 from lib.log import KYJStreamLogger
 import traceback
 import flask_jwt_extended.exceptions
@@ -17,6 +18,11 @@ class ErrorHandler:
     return api_unprocessable_entity(str(ex))
   
   @kyj_stream.errorhandler(ValidationException)
+  def register_error_handler(ex):
+    KYJStreamLogger.log_error(str(ex),ex)
+    return api_unprocessable_entity(str(ex))
+  
+  @kyj_stream.errorhandler(RegisterException)
   def validation_error_handler(ex):
     KYJStreamLogger.log_error(str(ex),ex)
     return api_unprocessable_entity(str(ex))

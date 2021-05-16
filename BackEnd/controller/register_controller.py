@@ -6,14 +6,18 @@ from lib.json_response import *
 from lib.validator import Validator
 from lib.exception.validation_exception import ValidationException
 from service.register_service import RegisterService
+from lib.exception.register_exception import RegisterException
   
 class RegisterController:
   
   @kyj_stream.route('/login',methods=['POST'])
   @jwt_required(locations='headers',optional=True)
   def register_controller():
-    jwt = get_jwt()
-    print(str(jwt))
+
+    request_jwt = get_jwt()
+    if request_jwt is not None:
+      print(str(request_jwt))
+      raise RegisterException('you are already login')
 
     request_body = request.get_json()
 
@@ -30,6 +34,8 @@ class RegisterController:
     register_service = RegisterService()
 
     register_service.check_email_exist(user_email)
+
+
 
     access_token = create_access_token(user_email)
     refresh_token = create_refresh_token(user_email)
