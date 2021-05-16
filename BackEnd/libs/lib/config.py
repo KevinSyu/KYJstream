@@ -18,7 +18,7 @@ class KYJStreamConfig:
             KYJStreamConfig.__config.read('./etc/common_docker_dev.ini')
         else:
             KYJStreamConfig.__config.read('./etc/common_local_dev.ini')
-
+            
         KYJStreamConfig.set_crypt_section('kyjstream.secret.crypt')
         KYJStreamConfig.set_crypt_key('KEY')
         KYJStreamConfig.set_config(KYJStreamConfig.get_crypt_section(),KYJStreamConfig.get_crypt_key(),"IXqAiIIVkcD8t70E")
