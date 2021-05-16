@@ -28,7 +28,9 @@ class KYJStreamLogger:
       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
       datefmt='%Y-%m-%d %H:%M:%S',
       handlers=[
-      TimedRotatingFileHandler(path+name, when='midnight')]
+        TimedRotatingFileHandler(
+        path+str(datetime.today().date())+'-'+name, when='midnight', backupCount=20),
+      TimedRotatingFileHandler(path+name, when='midnight', backupCount=20)]
     )
 
   @staticmethod

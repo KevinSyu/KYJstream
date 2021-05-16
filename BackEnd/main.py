@@ -19,7 +19,6 @@ if __name__ == "__main__":
         DBManager.init()
         FrameWork.init()
 
-
     except Exception as e:
         KYJStreamLogger.log_error(e)
         raise Exception('caught by global exception',e)

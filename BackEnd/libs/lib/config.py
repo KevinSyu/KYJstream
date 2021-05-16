@@ -28,6 +28,12 @@ class KYJStreamConfig:
         if KYJStreamConfig.is_exist(section):
             return str(KYJStreamConfig.__config[section][key])
         raise Exception
+    
+    @staticmethod
+    def get_int(section, key):
+        if KYJStreamConfig.is_exist(section):
+            return int(KYJStreamConfig.__config[section][key])
+        raise Exception
 
     @staticmethod
     def is_exist(section):
