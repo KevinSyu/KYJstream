@@ -9,6 +9,7 @@ kyj_stream = Blueprint('kyj-stream',__name__)
 import controller.test_controller 
 import controller.logs_controller
 import controller.register_controller
+import controller.rooms_controller
 import error_handler
 
 class FrameWork:
