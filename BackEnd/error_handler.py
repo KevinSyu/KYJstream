@@ -4,6 +4,7 @@ from lib.exception.datetime_format_exception import DatetimeFormatException
 from lib.exception.validation_exception import ValidationException 
 from lib.exception.register_exception import RegisterException
 from lib.exception.sql_exception import SqlException
+from lib.exception.request_format_exception import RequestFormatException
 from lib.log import KYJStreamLogger
 import traceback
 import flask_jwt_extended.exceptions
@@ -12,6 +13,11 @@ from flask_jwt_extended.exceptions import *
 from lib.json_response import *
 
 class ErrorHandler:
+
+  @kyj_stream.errorhandler(RequestFormatException)
+  def request_format_error_handler(ex):
+    KYJStreamLogger.log_error(str(ex),ex)
+    return api_unprocessable_entity(str(ex))
 
   @kyj_stream.errorhandler(DatetimeFormatException)
   def datetime_format_error_handler(ex):

@@ -21,7 +21,7 @@ def upgrade():
         sa.Column('user_id',sa.VARCHAR(32),primary_key=True,nullable=False),
         sa.Column('user_name',sa.VARCHAR(32),nullable=False),
         sa.Column('user_email',sa.VARCHAR(32),nullable=False),
-        sa.Column('user_password',sa.VARCHAR(64),nullable=False),
+        sa.Column('user_password',sa.VARCHAR(32),nullable=False),
         sa.Column('user_image',sa.VARCHAR(32),nullable=True),
         sa.Column('create_time_stamp',sa.DateTime(),nullable=False),
         sa.Column('update_time_stamp',sa.DateTime(),nullable=False),
