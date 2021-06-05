@@ -4,7 +4,7 @@ from lib.log import KYJStreamLogger
 
 class Validator():
 
-  email_pattern = re.compile(r'^[\w.]{8,16}@[a-z]{0,10}.[a-z]{0,10}$')
+  email_pattern = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
   password_pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w._!]{8,16}$')
 
   def check_user_email_validation(user_email):
