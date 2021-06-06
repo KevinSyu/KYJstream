@@ -3,7 +3,7 @@ from lib.config import KYJStreamConfig
 from lib.log import KYJStreamLogger
 from lib.file_handler import KYJFileHandler
 from datetime import datetime, timedelta, date
-from lib.exception.log_datetime_format_exception import LogDatetimeFormatException
+from lib.exception.datetime_format_exception import DatetimeFormatException
 import re
 import json
 
@@ -53,7 +53,8 @@ class LogsService:
       self.time_begin = datetime.strptime(time_begin, self.__time_param_format) if time_begin else None
       self.time_end   = datetime.strptime(time_end,   self.__time_param_format) if time_end   else None
     except:
-      raise LogDatetimeFormatException
+      KYJStreamLogger.log_error('time_begin or time_end format error time_begin:{} , time_end:{}'.format(time_begin,time_end))
+      raise DatetimeFormatException('log_service datime format error')
       
     # prepare variable for filtering name
     self.name_list = names.split(",") if names else []

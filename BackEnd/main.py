@@ -17,10 +17,8 @@ if __name__ == "__main__":
     try:
         KYJStreamInit.init()
         DBManager.init()
-        print('test git')
         FrameWork.init()
-
 
     except Exception as e:
         KYJStreamLogger.log_error(e)
-        raise Exception('caught by global exception')
+        raise Exception('caught by global exception',e)

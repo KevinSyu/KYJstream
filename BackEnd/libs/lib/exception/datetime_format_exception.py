@@ -1,0 +1,2 @@
+class DatetimeFormatException(Exception):
+  pass
