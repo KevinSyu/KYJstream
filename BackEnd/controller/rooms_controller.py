@@ -10,7 +10,7 @@ class RoomsController:
 
   @kyj_stream.route('/rooms', methods=['POST'])
   @jwt_required(locations='headers', optional=False)
-  def create():
+  def create_room():
     request_body = request.get_json()
 
     user_id = get_jwt_identity()
