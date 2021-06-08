@@ -3,8 +3,6 @@ from framework_init import kyj_stream
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from lib.json_response import *
 from service.room_service import RoomService
-from lib.log import KYJStreamLogger
-from lib.exception.validation_exception import ValidationException
 from lib.validator import Validator
 import json,dataclasses
 
