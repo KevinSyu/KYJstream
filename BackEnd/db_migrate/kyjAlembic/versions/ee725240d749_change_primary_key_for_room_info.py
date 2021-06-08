@@ -1,8 +1,8 @@
-"""change primary key
+"""change primary key for room_info
 
-Revision ID: efcd144fc9bc
-Revises: b19485f26143
-Create Date: 2021-05-27 22:09:30.591551
+Revision ID: ee725240d749
+Revises: 682e1b336430
+Create Date: 2021-06-08 21:22:27.888810
 
 """
 from alembic import op
@@ -11,8 +11,8 @@ from sqlalchemy.engine.reflection import Inspector
 
 
 # revision identifiers, used by Alembic.
-revision = 'efcd144fc9bc'
-down_revision = 'b19485f26143'
+revision = 'ee725240d749'
+down_revision = '682e1b336430'
 branch_labels = None
 depends_on = None
 
@@ -32,7 +32,6 @@ def upgrade():
     sa.Column('create_time_stamp',sa.DateTime(),nullable=False),
     sa.Column('update_time_stamp',sa.DateTime(),nullable=False),
     )
-
 
 def downgrade():
     pass

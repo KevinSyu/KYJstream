@@ -5,8 +5,8 @@ import os
 
 class DBManager:
   
-  __db_config_section = 'kyjstream.db.mysql.config'
-  __test_db_config_section = 'kyjstream_test.db.mysql.config'
+  __db_config_section = 'kyjstream.db.config'
+  __test_db_config_section = 'kyjstream_test.db.config'
   __db = None
   __test_db = None
   
