@@ -13,9 +13,11 @@ class KYJStreamConfig:
         
         KYJStreamConfig.__config.read('./etc/default.ini')
         KYJStreamConfig.__config.read('./etc/common.ini')
-
+        
         if  os.environ.get('ENVIRONMENT') == "dockerdev":
             KYJStreamConfig.__config.read('./etc/common_docker_dev.ini')
+        elif os.environ.get('ENVIRONMENT') == "dockertest":
+            KYJStreamConfig.__config.read('./etc/common_docker_test.ini')
         else:
             KYJStreamConfig.__config.read('./etc/common_local_dev.ini')
             

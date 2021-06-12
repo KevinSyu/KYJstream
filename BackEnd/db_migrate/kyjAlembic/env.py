@@ -66,7 +66,7 @@ def run_migrations_online():
     db.get_connection()
 
     db_test = None
-    if KYJStreamConfig.is_exist("kyjstream_test.db.mysql.config"):
+    if KYJStreamConfig.is_exist("kyjstream_test.db.config"):
         DBManager.init_test_db()
         db_test = DBManager.get_test_db()
         db_test.get_connection()

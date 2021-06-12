@@ -16,7 +16,7 @@ class FrameWork:
   jwt_config_section = 'kyjstream.secret.config'
 
   @staticmethod
-  def init():
+  def create_app():
     jwt = JWTManager()
     app = Flask(__name__)
     app.config['JWT_SECRET_KEY'] = KYJStreamConfig.get_str(FrameWork.jwt_config_section,'SECRET_KEY')
@@ -24,7 +24,8 @@ class FrameWork:
     app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=KYJStreamConfig.get_int(FrameWork.jwt_config_section,'REFRESH_TOKEN_EXPIRES_TIME_IN_DAYS'))
     jwt.init_app(app)
     app.register_blueprint(kyj_stream,url_prefix='/kyj_stream')
-    app.run(debug=True, host=KYJStreamConfig.get_host(), port=8888)
+
+    return app
     
 
  
