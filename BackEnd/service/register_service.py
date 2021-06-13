@@ -1,4 +1,4 @@
-from repository.register_repo import RegisterRepo
+from repository.user_repo import UserRepo
 from lib.util import generate_user_id
 from lib.crypt import encrypt
 from lib.exception.sql_exception import SqlException
@@ -8,7 +8,7 @@ from vo.register_vo import RegisterVO
 class RegisterService:
 
   def __init__(self):
-    self.register_repository = RegisterRepo()
+    self.user_repository = UserRepo()
 
   def register_user(self,user_email,user_password):
     
@@ -16,7 +16,7 @@ class RegisterService:
     
     user_id = generate_user_id()
     
-    self.register_repository.create_user(user_id,user_email,encrypt(user_password),user_email)
+    self.user_repository.create_user(user_id,user_email,encrypt(user_password),user_email)
 
     access_token = create_access_token(user_id)
     refresh_token = create_refresh_token(user_id)
@@ -26,7 +26,7 @@ class RegisterService:
 
   def check_email_exist(self,user_email):
     
-    result = self.register_repository.check_email_exist(user_email)
+    result = self.user_repository.check_email_exist(user_email)
     
     if len(result):
       
