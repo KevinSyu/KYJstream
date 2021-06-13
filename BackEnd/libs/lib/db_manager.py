@@ -8,7 +8,7 @@ class DBManager:
   
   __db_config_section = 'kyjstream.db.config'
   __mongo_db_config_section = 'kyjstream.db.mongo.config'
-  __test_db_config_section = 'kyjstream_test.db.mysql.config'
+  __test_db_config_section = 'kyjstream_test.db.config'
   __db = None
   __mongo_db = None
   __test_db = None
