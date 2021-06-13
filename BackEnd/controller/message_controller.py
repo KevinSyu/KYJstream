@@ -22,11 +22,11 @@ class MessageController:
 
     message = request_body.get('message')
     Validator.check_message_content_validation(message)
-    print(message)
+    
     message_service = MessagerService()
-    message_service.send_message(user_id, room_id, message)
+    response = message_service.send_message(user_id, room_id, message)
 
-    return api_success("send message success")
+    return api_success(response.__dict__)
 
 
 

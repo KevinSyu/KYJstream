@@ -4,7 +4,7 @@ from lib.crypt import encrypt
 from lib.exception.sql_exception import SqlException
 from lib.log import KYJStreamLogger
 from flask_jwt_extended import create_access_token,create_refresh_token
-from vo.register_vo import RegisterVO
+from vo.send_message_vo import SendMessageVO
 from repository.message_repo import MessageRepo
 from repository.room_repo import RoomRepo
 from repository.user_repo import UserRepo
@@ -22,7 +22,7 @@ class MessagerService:
     user_name = self.get_user_name(user_id)
     self.message_repo.insert_message(user_id, room_id, message,user_name)
 
-    return 
+    return SendMessageVO(message='send message success')
 
   def check_room_exist(self,room_id):
     
