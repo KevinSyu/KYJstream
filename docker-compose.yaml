@@ -12,6 +12,18 @@ services:
       MYSQL_DATABASE: "kyjstream"
     ports:
       - 3307:3306
+
+  mongodb:
+
+    image: mongo:4.4
+    restart: always    
+    environment:
+      MONGO_INITDB_DATABASE : "kyjstream"
+      MONGO_INITDB_ROOT_USERNAME : ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD  : ${MONGO_PASSWORD}
+    ports:
+      - 27017:27017
+
   backend:
     build: backend
     restart: always
@@ -21,6 +33,7 @@ services:
       - ./backend:/app
     depends_on:
       - db
+      - mongodb
   frontend:
     build: ./frontend/KYJstream
     ports:

@@ -27,6 +27,13 @@ class TestController:
   def test2():
     return 'OK'
 
+  @kyj_stream.route('/check-mongo',methods=['POST'])
+  def test_mongo():
+    db = DBManager.get_mongodb()
+    collection = db.get_collection('MONGOTEST')
+    collection.insert({"MONGO2":"TEST2"})
+    return 'TEST'
+
   @retry(exception=ConfigNotFoundException,times=2, delay=0)
   def print_test(msg):
     raise ConfigNotFoundException('config not found')
