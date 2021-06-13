@@ -70,3 +70,24 @@ ex. `regex=^\*` (messages that start with `*`)
   }
 }
 ```
+
+## Send Message Api
+### POST `/kyj_stream/message/send`
+#### Header
+Authorization:access_token
+#### Request Body(json)
+```
+{
+	"room_id":"TESTROOM8",
+	"message":"message"
+}
+```
+All params are case sensitive  
+
+#### Response
+```
+{
+  "status":"success",
+  "data":"send message success"
+}
+```
