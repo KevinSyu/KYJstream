@@ -2,9 +2,10 @@ from lib.db_manager import DBManager
 from lib.db import DataBase
 from lib.exception.sql_exception import SqlException
 
-class RegisterRepo:
+class UserRepo:
   SQL_CHECK_EMAIL_EXIST = 'SELECT user_email FROM user_info WHERE user_email = :user_email'
   SQL_INSERT_USER = 'INSERT user_info (user_id,user_email,user_name,user_password,create_time_stamp,update_time_stamp) values (:user_id,:user_email,:user_name,:user_password, NOW(),NOW())'
+  SQL_GET_USER_NAME = 'SELECT user_name from user_info where user_id = :user_id'
 
   def __init__(self):
     self.db:DataBase = DBManager.get_db()
@@ -33,6 +34,15 @@ class RegisterRepo:
     except Exception:
       self.db.rollback()
       raise SqlException('register user error')
+
+  def get_user_name(self, user_id):
+    self.db.get_connection()
+    params = {
+      'user_id':user_id
+    }
+    result = self.db.execute_sql_with_connection(self.SQL_GET_USER_NAME,params).fetchone()
+    
+    return result
 
     
     

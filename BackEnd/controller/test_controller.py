@@ -1,4 +1,5 @@
 from flask import request
+from lib.mongodb import MongoDB
 from framework_init import kyj_stream
 from service.test_service import TestService
 from lib.db_manager import DBManager
@@ -26,6 +27,15 @@ class TestController:
   @jwt_required(locations='headers')
   def test2():
     return 'OK'
+
+  @kyj_stream.route('/check-mongo',methods=['POST'])
+  def test_mongo():
+    db:MongoDB = DBManager.get_mongodb()
+    collection = db.get_collection('chat_room')
+    result = collection.find({"room_id":"TESTROOM5"})
+    collection.update({"room_id":"TESTROOM5"},{"$push":{"message_list":{"user_id":"user_id"}}},upsert=True)
+    print(list(result))
+    return 'TEST'
 
   @retry(exception=ConfigNotFoundException,times=2, delay=0)
   def print_test(msg):
