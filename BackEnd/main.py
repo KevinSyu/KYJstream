@@ -17,7 +17,8 @@ if __name__ == "__main__":
     try:
         KYJStreamInit.init()
         DBManager.init()
-        app = FrameWork.create_app()
+        FrameWork.init()
+        app = FrameWork.get_app()
         app.run(debug=True, host=KYJStreamConfig.get_host(), port=8888)
 
     except Exception as e:

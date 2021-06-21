@@ -14,7 +14,8 @@ def client():
 
     clean_db()
 
-    app = FrameWork.create_app()
+    FrameWork.init()
+    app = FrameWork.get_app()
     test_client = app.test_client()
     yield test_client
     test_client.delete()
