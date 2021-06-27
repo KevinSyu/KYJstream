@@ -1,0 +1,30 @@
+<mat-paginator 
+               [length]="totalCount" 
+               [pageIndex]="0" 
+               [pageSize]="3"
+               [pageSizeOptions]="[3, 6, 9]">
+</mat-paginator>
+
+<mat-table [dataSource]="logData" matSort #sortTable="matSort">
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>TIME</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.time }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="level">
+      <mat-header-cell *matHeaderCellDef>LEVEL</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.level }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>NAME</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="msg">
+        <mat-header-cell *matHeaderCellDef>MSG</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.msg }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="['time', 'level', 'name', 'msg']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['time', 'level', 'name', 'msg']"></mat-row>
+  </mat-table>
