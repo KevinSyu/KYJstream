@@ -1,0 +1,21 @@
+.mat-header-cell.mat-column-level,.mat-header-cell.mat-column-name,.mat-header-cell.mat-column-msg,
+.mat-column-time,.mat-column-level,.mat-column-name,.mat-column-msg{
+    align-items: center; 
+    display: flex;
+    justify-content: center; 
+}
+
+.mat-column-time,.mat-column-level,.mat-column-name {
+    max-width: 100px;
+  }
+  
+  .mat-header-cell.mat-column-msg {
+    color: red;
+  }
+  
+  .mat-cell.mat-column-msg {
+    font-weight: bold;
+    line-height:30px;
+    margin: 10px;
+    font-size: 15px;
+  }
