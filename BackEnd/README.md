@@ -85,6 +85,10 @@
     user: root
     password: test
     port: 3307
+  
+  ## 執行pytest測試
+    container開啟的情況下，在另一個terminal執行
+    `docker exec -it kyj_stream_backend_1 bash -c "ENVIRONMENT=dockertest pytest tests/"`
 
 # 不使用Docker
   ## 安裝環境

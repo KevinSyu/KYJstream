@@ -14,6 +14,7 @@ import error_handler
 
 class FrameWork:
   jwt_config_section = 'kyjstream.secret.config'
+  ___app = None
 
   @staticmethod
   def init():
@@ -24,7 +25,9 @@ class FrameWork:
     app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=KYJStreamConfig.get_int(FrameWork.jwt_config_section,'REFRESH_TOKEN_EXPIRES_TIME_IN_DAYS'))
     jwt.init_app(app)
     app.register_blueprint(kyj_stream,url_prefix='/kyj_stream')
-    app.run(debug=True, host=KYJStreamConfig.get_host(), port=8888)
-    
+    FrameWork.__app = app
 
+  @staticmethod
+  def get_app():
+    return FrameWork.__app
  

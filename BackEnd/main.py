@@ -18,6 +18,8 @@ if __name__ == "__main__":
         KYJStreamInit.init()
         DBManager.init()
         FrameWork.init()
+        app = FrameWork.get_app()
+        app.run(debug=True, host=KYJStreamConfig.get_host(), port=8888)
 
     except Exception as e:
         KYJStreamLogger.log_error(e)

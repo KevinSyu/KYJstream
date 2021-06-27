@@ -8,7 +8,7 @@ from lib.check_login import check_login
 from functools import wraps
 from lib.exception.config_not_found_exception import ConfigNotFoundException
 from flask_jwt_extended import create_access_token, jwt_required
-  
+
 class TestController:
   
   @kyj_stream.route('/',methods=['GET'])
@@ -25,6 +25,10 @@ class TestController:
   @kyj_stream.route('/',methods=['POST'])
   @jwt_required(locations='headers')
   def test2():
+    return 'OK'
+  
+  @kyj_stream.route('/pytest_init',methods=['GET'])
+  def test_pytest_init():
     return 'OK'
 
   @retry(exception=ConfigNotFoundException,times=2, delay=0)
